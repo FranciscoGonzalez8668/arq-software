@@ -4,51 +4,64 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"ioutil"
+	"io/ioutil"
 	"net/http"
 )
 
-func main(){
-	var categorias Category
-	for true{
-	cats,err:=GetCategories("MLA")
-	if err != nil{
-		fmt.Fprintln("Error 404")
-		break
+func main() {
+	cats, err := GetCategories("MLA")
+	if err != nil {
+		fmt.Println("error")
+		panic(err)
 	}
-	categorias[i]=cats
-	i++
-	}
-	fmt.Fprintln(categorias)
-	resp:=http.Get("https://api.mercadolibre.com")
+	viewCategories(cats)
 }
-func GetCategories(siteID string)(Categories, error){
-	response, err:=http.Get("https://api.mercadolibre.com/sites/MLA/Categories") //completar
-	bytes:=ioutil.ReadAll(response.bytes)
-	
-	var cats Category
-	err:=json.Unmarshal(bytes, &cats)
+func GetCategories(siteID string) (categories, error) {
+	response, err := http.Get("https://api.mercadolibre.com/sites/MLA/categories") //completar
+	vacio := categories{}
+	if err != nil {
+		err := errors.New("404 Not found")
 
+		return vacio, err
+	}
+	bytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		err := errors.New("404 Not found")
+
+		return vacio, err
+	}
+	var cats categories
+	err = json.Unmarshal(bytes, &cats)
+	if err != nil {
+		panic(err)
+	}
 	return cats, nil
 }
-type Category struct{
-	Id string 'json: "id"'
-	Name string 'json: "name"'
+
+type categories []struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
 }
-type Categories []category
+
+func viewCategories(cats categories) {
+	i := 0
+	for i < len(cats) {
+		fmt.Println("\n Id:", cats[i].Id)
+		fmt.Println("Name:", cats[i].Name)
+
+		i++
+	}
+}
 
 //invocacion correspondiente mediante http
 //get    resp:= http.Get(url)
 //Post   resp:=http.Post(url,body)
 
-
-
 //leer los datos
-//
+//ioutil.ReadAll(response.Body)
 
 // una vez obtenido los bytes
 // var myVar myStruct
-
 
 /* ejemplo json
 {
@@ -57,10 +70,10 @@ type Categories []category
 }
 en go seria
 type Persona struct{
-	Nombre string 
+	Nombre string
 	Edad int
 }
- 
+
 debemos tener en cuenta las anotaciones especificadas a la derecha de cada uno de los atributos de nuestra estructura e invocar
 el metodo del paquete de encoding/json
 
@@ -71,7 +84,6 @@ documentacion PKG.Go.dev/net/http
 
 {"site_id":"MLA","country_default_time_zone":"GMT-03:00","query":"Motorola)",
 
-configuraicon apr 
-primero en git se debe mapear 
+configuraicon apr
+primero en git se debe mapear
 */
-
