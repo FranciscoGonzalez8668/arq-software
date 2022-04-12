@@ -1,0 +1,25 @@
+Existen 3 tipos de testing: unitario(se trata de ver los errores poibles de una sola funcion) y funcional(ve simplemente el resultado) y 
+integracion(es ver la funcionalidad de todos los errores del programa integro).
+Teste de caja blanca: se centran en los detalles procedimentales del software, por su dise;o esta fuertemente ilgado al codigo fuente
+test de caja negra: no tiene encuenta su funcionamiento interno, nos interesa las formas de interactuar con el programa.
+
+
+.en go se deben definir los casos de rpueba respecto de las condiciones que no queremos que ocurran
+
+.en el caso que se busque verificar la consistencia de un valor esperado con una respuesta se debe utilizar una libreria para calidad
+	 los assets
+
+.los test de caja blanca deben implementarse en cada uno de los paquetes que contienen los modulos del software a testear, tienen que ver 
+ 	con sus funciones, varibales, constantes y estructuras
+
+.los test de caja negra debe implementarse en la carpeta test y tienen que ver con funciones, variables, constantes y esturcturas publicas
+
+.tambien se pueden implmentear benchamark para asegurar el rendimiento
+
+
+Cobertura:
+	la cobertura de un codigo es una medida porcentual en las pruebas de software que mide el grado en que el codigo fuente de un progrmaa 
+	ha sido compraobado sirve para ver la calidad del test que se lleva a cabo y para determinar las partes criticas del codigo que 
+	no han sido comprobadas y las partes que ya lo fueron, ademas se puede utiliar como tecnica de optimizacion dentro de un 
+	compilador optimizador para llevar a cabo una eliminacion de codigo muerto, mas especificamente sirve para detectar codigo 
+	inalcanzable 
